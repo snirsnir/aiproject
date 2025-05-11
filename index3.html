@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דרישות מוצר - דף עבודה</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f0f8ff;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .page {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #3f51b5;
+            text-align: center;
+            font-size: 1.7rem;
+            margin-bottom: 15px;
+        }
+        
+        .intro {
+            background: #e8eaf6;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        
+        .section {
+            margin-bottom: 20px;
+        }
+        
+        h2 {
+            color: #3f51b5;
+            font-size: 1.2rem;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .form-field {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 3px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        ul {
+            margin: 0;
+            padding-right: 20px;
+        }
+        
+        li {
+            margin-bottom: 5px;
+        }
+        
+        .example {
+            background: #fff8e1;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-top: 4px;
+            border-right: 3px solid #ffc107;
+        }
+        
+        .action-btn {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            background: #388e3c;
+        }
+        
+        #example-btn {
+            background: #ff9800;
+        }
+        
+        #example-btn:hover {
+            background: #f57c00;
+        }
+        
+        #example-btn.clear {
+            background: #f44336;
+        }
+        
+        #example-btn.clear:hover {
+            background: #d32f2f;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .page {
+                box-shadow: none;
+            }
+            
+            .action-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <h1>דרישות מוצר - דף עבודה</h1>
+        
+        <div class="intro">
+            <p>דרישות מוצר = מה המוצר שלנו צריך לעשות + איך הוא צריך לעבוד</p>
+        </div>
+        
+        <div class="section">
+            <h2>פרטי הפרויקט</h2>
+            
+            <div class="form-field">
+                <label>שם הפרויקט:</label>
+                <input type="text" id="project-name">
+            </div>
+            
+            <div class="form-field">
+                <label>הבעיה שאנחנו פותרים:</label>
+                <input type="text" id="project-problem">
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>מה המוצר צריך לעשות</h2>
+            <p class="example">לדוגמה: לזהות סימני התפרצות של הר געש, לשלוח התראות לתושבים</p>
+            
+            <div class="form-field">
+                <input type="text" placeholder="1." id="func-1">
+            </div>
+            <div class="form-field">
+                <input type="text" placeholder="2." id="func-2">
+            </div>
+            <div class="form-field">
+                <input type="text" placeholder="3." id="func-3">
+            </div>
+            <div class="form-field">
+                <input type="text" placeholder="4." id="func-4">
+            </div>
+            <div class="form-field">
+                <input type="text" placeholder="5." id="func-5">
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>איך המוצר צריך לעבוד</h2>
+            <p class="example">לדוגמה: קל לשימוש, מהיר, עמיד למים, עובד גם בלי אינטרנט</p>
+            
+            <div class="form-field">
+                <input type="text" placeholder="1." id="nonfunc-1">
+            </div>
+            <div class="form-field">
+                <input type="text" placeholder="2." id="nonfunc-2">
+            </div>
+            <div class="form-field">
+                <input type="text" placeholder="3." id="nonfunc-3">
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>איך בינה מלאכותית תעזור</h2>
+            <p class="example">לדוגמה: זיהוי תמונות, חיזוי אירועים, ניתוח נתונים</p>
+            
+            <div class="form-field">
+                <input type="text" placeholder="1." id="ai-1">
+            </div>
+            <div class="form-field">
+                <input type="text" placeholder="2." id="ai-2">
+            </div>
+        </div>
+        
+        <button id="example-btn" class="action-btn" onclick="toggleExamples()">הצג דוגמה</button>
+        <button class="action-btn" onclick="window.print()">הדפס / שמור כ-PDF</button>
+    </div>
+    
+    <script>
+        let showingExamples = false;
+        
+        // דוגמאות למילוי הטופס - שני סטים של נתונים לדוגמה
+        const examples = {
+            "בעיית הרי געש": {
+                projectName: "מערכת התרעה חכמה להרי געש",
+                projectProblem: "הרי געש פעילים מסכנים מיליוני אנשים שגרים בקרבתם",
+                functional: [
+                    "לנטר פעילות של הרי געש בזמן אמת",
+                    "לזהות סימנים מוקדמים להתפרצות",
+                    "לשלוח התראות מיידיות לתושבים",
+                    "לספק הנחיות לפינוי בטוח",
+                    "לאסוף נתונים על התפרצויות לשיפור חיזויים עתידיים"
+                ],
+                nonFunctional: [
+                    "המערכת צריכה לפעול 24/7 ללא הפסקה",
+                    "המערכת צריכה לעבוד גם ללא חשמל או אינטרנט",
+                    "ההתראות צריכות להיות ברורות וקלות להבנה לכולם"
+                ],
+                ai: [
+                    "ניתוח נתונים משלל חיישנים לזיהוי דפוסים של התפרצות",
+                    "למידה והשתפרות מכל התפרצות כדי לשפר חיזויים עתידיים"
+                ]
+            },
+            "בעיית פלסטיק": {
+                projectName: "רובוט ממחזר חכם",
+                projectProblem: "יותר מדי פלסטיק חד פעמי מגיע לים ופוגע בחיות ימיות",
+                functional: [
+                    "לזהות ולמיין סוגים שונים של פלסטיק",
+                    "להפריד בין חומרים שונים באופן אוטומטי",
+                    "לעבד את הפלסטיק למוצרים חדשים במקום",
+                    "למדוד ולהציג כמה פלסטיק נאסף וכמה פחות הגיע לים",
+                    "ללמד אנשים על חשיבות המיחזור"
+                ],
+                nonFunctional: [
+                    "הרובוט צריך להיות עמיד למים ולשמש",
+                    "הרובוט צריך לפעול על אנרגיה סולארית",
+                    "הפעלה פשוטה שגם ילדים יכולים להשתמש בה"
+                ],
+                ai: [
+                    "זיהוי ויזואלי של סוגי פלסטיק שונים באמצעות מצלמה",
+                    "ניתוח והמלצות לשיפור הפחתת השימוש בפלסטיק לפי האזור"
+                ]
+            }
+        };
+        
+        // מחזוריות בין שתי הדוגמאות
+        let currentExample = "בעיית הרי געש";
+        
+        function toggleExamples() {
+            const exampleBtn = document.getElementById('example-btn');
+            
+            if (!showingExamples) {
+                // קובע את הדוגמה הבאה לפי תורנות
+                const example = examples[currentExample];
+                currentExample = currentExample === "בעיית הרי געש" ? "בעיית פלסטיק" : "בעיית הרי געש";
+                
+                // מציג את הדוגמאות בטופס
+                document.getElementById('project-name').value = example.projectName;
+                document.getElementById('project-problem').value = example.projectProblem;
+                
+                for (let i = 0; i < 5; i++) {
+                    const field = document.getElementById(`func-${i+1}`);
+                    if (field && example.functional[i]) {
+                        field.value = example.functional[i];
+                    }
+                }
+                
+                for (let i = 0; i < 3; i++) {
+                    const field = document.getElementById(`nonfunc-${i+1}`);
+                    if (field && example.nonFunctional[i]) {
+                        field.value = example.nonFunctional[i];
+                    }
+                }
+                
+                for (let i = 0; i < 2; i++) {
+                    const field = document.getElementById(`ai-${i+1}`);
+                    if (field && example.ai[i]) {
+                        field.value = example.ai[i];
+                    }
+                }
+                
+                // משנה את הכפתור למצב ניקוי
+                exampleBtn.textContent = "נקה הכל";
+                exampleBtn.classList.add("clear");
+                showingExamples = true;
+                
+            } else {
+                // מנקה את כל השדות
+                const inputs = document.querySelectorAll('input[type="text"]');
+                inputs.forEach(input => {
+                    input.value = "";
+                });
+                
+                // משנה את הכפתור בחזרה למצב הצגת דוגמה
+                exampleBtn.textContent = "הצג דוגמה";
+                exampleBtn.classList.remove("clear");
+                showingExamples = false;
+            }
+        }
+    </script>
+</body>
+</html>
