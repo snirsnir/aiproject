@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תהליך הפרויקט - פתרון בעיות עם בינה מלאכותית</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #f39c12;
+            --dark-color: #34495e;
+            --light-color: #ecf0f1;
+            --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --transition: 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .process-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .process-path {
+            position: relative;
+            height: 10px;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin: 0 auto;
+            width: 90%;
+            margin-top: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .process-path::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background-color: var(--secondary-color);
+            border-radius: 5px;
+            transition: width 1.5s ease;
+        }
+        
+        .process-path.animate::before {
+            width: 100%;
+        }
+        
+        .lessons-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        @media (max-width: 768px) {
+            .lessons-container {
+                flex-direction: column;
+                gap: 30px;
+            }
+        }
+        
+        .lesson-card {
+            flex: 1;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin: 0 15px;
+            transition: transform var(--transition), box-shadow var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            max-width: 380px;
+        }
+        
+        @media (max-width: 768px) {
+            .lesson-card {
+                margin: 0;
+                max-width: 100%;
+            }
+        }
+        
+        .lesson-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .lesson-card.active {
+            border: 3px solid var(--secondary-color);
+        }
+        
+        .lesson-number {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .lesson-card h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-right: 30px;
+        }
+        
+        .steps-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .steps-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 5px;
+            background-color: var(--secondary-color);
+        }
+        
+        .step {
+            display: none;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f8f8f8;
+            position: relative;
+            transition: transform var(--transition), opacity var(--transition);
+            opacity: 0;
+            transform: translateX(20px);
+        }
+        
+        .step.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+        
+        .step-title {
+            display: inline-block;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+        
+        .step-description {
+            padding-right: 40px;
+            margin-top: 10px;
+        }
+        
+        .step-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .product-example {
+            background-color: var(--light-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color var(--transition);
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        
+        .icon-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px;
+            width: 120px;
+        }
+        
+        .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #e3f2fd;
+            border-radius: 50%;
+        }
+        
+        .icon-text {
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted var(--dark-color);
+            cursor: help;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 10px;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .ai-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .ai-feature {
+            background-color: #e3f2fd;
+            color: var(--dark-color);
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .ai-feature span {
+            font-size: 1.2rem;
+        }
+
+        .requirement-box {
+            background-color: #f7f9fa;
+            border-right: 3px solid var(--secondary-color);
+            padding: 10px 15px;
+            margin: 10px 0;
+            font-size: 0.95rem;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-top: 40px;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--primary-color);
+            top: 0;
+            bottom: 0;
+            right: 50%;
+            margin-right: -3px;
+        }
+
+        .timeline-container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -13px;
+            background-color: white;
+            border: 4px solid var(--secondary-color);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .left {
+            right: 0;
+        }
+
+        .right {
+            right: 50%;
+        }
+
+        .right::after {
+            left: -13px;
+        }
+
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: white;
+            position: relative;
+            border-radius: 6px;
+            box-shadow: var(--shadow);
+        }
+
+        @media screen and (max-width: 600px) {
+            .timeline::after {
+                right: 31px;
+            }
+            
+            .timeline-container {
+                width: 100%;
+                padding-right: 70px;
+                padding-left: 25px;
+            }
+            
+            .timeline-container::after {
+                right: 18px;
+            }
+            
+            .left::after, .right::after {
+                left: auto;
+            }
+            
+            .right {
+                right: 0%;
+            }
+        }
+
+        .model-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .model-image {
+            max-width: 100%;
+            transition: transform 0.5s ease;
+            cursor: pointer;
+        }
+
+        .model-image:hover {
+            transform: scale(1.05);
+        }
+
+        .use-case {
+            background-color: #f0f8ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-right: 3px solid var(--primary-color);
+        }
+
+        .use-case-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .highlight {
+            background-color: rgba(46, 204, 113, 0.2);
+            padding: 3px 5px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>תהליך פיתוח פתרון מבוסס בינה מלאכותית</h1>
+            <p>מסע בן שלושה שיעורים: מבחירת בעיה, דרך תכנון פתרון, ועד ליצירת דגם דיגיטלי תלת-מימדי</p>
+        </header>
+        
+        <div class="process-container">
+            <div class="lessons-container">
+                <div class="lesson-card active" id="lesson1">
+                    <div class="lesson-number">1</div>
+                    <h2>שיעור ראשון</h2>
+                    <p>בחירת בעיה, מחקר ראשוני והגדרת דרישות מוצר</p>
+                    <div class="icon-container">
+                        <div class="icon-item">
+                            <div class="icon">🔍</div>
+                            <div class="icon-text">בחירת בעיה</div>
+                        </div>
+                        <div class="icon-item">
+                            <div class="icon">📊</div>
+                            <div class="icon-text">מחקר מעמיק</div>
+                        </div>
+                        <div class="icon-item">
+                            <div class="icon">📋</div>
+                            <div class="icon-text">דרישות מוצר</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lesson-card" id="lesson2">
+                    <div class="lesson-number">2</div>
+                    <h2>שיעור שני</h2>
+                    <p>פיתוח הפתרון, הגדרת מקרי שימוש ותכנון אסטרטגיית שיווק</p>
+                    <div class="icon-container">
+                        <div class="icon-item">
+                            <div class="icon">💡</div>
+                            <div class="icon-text">פיתוח פתרון</div>
+                        </div>
+                        <div class="icon-item">
+                            <div class="icon">👤</div>
+                            <div class="icon-text">מקרי שימוש</div>
+                        </div>
+                        <div class="icon-item">
+                            <div class="icon">📢</div>
+                            <div class="icon-text">תכנון שיווקי</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lesson-card" id="lesson3">
+                    <div class="lesson-number">3</div>
+                    <h2>שיעור שלישי</h2>
+                    <p>השלמת ספר הפרויקט, יצירת דגם דיגיטלי תלת-מימדי והצגת הפרויקט</p>
+                    <div class="icon-container">
+                        <div class="icon-item">
+                            <div class="icon">📚</div>
+                            <div class="icon-text">ספר פרויקט</div>
+                        </div>
+                        <div class="icon-item">
+                            <div class="icon">🏆</div>
+                            <div class="icon-text">דגם תלת-מימדי</div>
+                        </div>
+                        <div class="icon-item">
+                            <div class="icon">🎤</div>
+                            <div class="icon-text">הצגת הפרויקט</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="process-path"></div>
+            
+            <div class="steps-container">
+                <!-- שיעור 1 -->
+                <div class="step active" id="step1">
+                    <div class="step-number">1</div>
+                    <div class="step-title">בחירת בעיה מבנק הבעיות</div>
+                    <div class="step-description">
+                        <p>בשלב הראשון, ניכנס לבנק הבעיות בכתובת: <strong>https://snirsnir.github.io/aiproject/</strong> ונבחר בעיה שמעניינת אותנו.</p>
+                        <div class="icon-container">
+                            <div class="icon-item">
+                                <div class="icon">🌋</div>
+                                <div class="icon-text">הרי געש</div>
+                            </div>
+                            <div class="icon-item">
+                                <div class="icon">🚯</div>
+                                <div class="icon-text">פלסטיק חד פעמי</div>
+                            </div>
+                            <div class="icon-item">
+                                <div class="icon">💧</div>
+                                <div class="icon-text">שימור מים</div>
+                            </div>
+                            <div class="icon-item">
+                                <div class="icon">🐯</div>
+                                <div class="icon-text">בעלי חיים בסכנה</div>
+                            </div>
+                        </div>
+                        <p>כל קבוצה תבחר בעיה אחת שתעבוד עליה לאורך כל הפרויקט. חשוב לבחור בעיה שמעניינת אתכם!</p>
+                    </div>
+                </div>
+                
+                <div class="step" id="step2">
+                    <div class="step-number">2</div>
+                    <div class="step-title">מחקר מעמיק על הבעיה</div>
+                    <div class="step-description">
+                        <p>אחרי שבחרנו בעיה, נבצע מחקר מעמיק באמצעות <strong>Perplexity</strong> או כלי מחקר אחרים.</p>
+                        
+                        <p>שאלות מחקר לדוגמה:</p>
+                        <div class="product-example">
+                            <ul>
+                                <li>מה הגודל והיקף הבעיה?</li>
+                                <li>מי מושפע ממנה?</li>
+                                <li>אילו פתרונות כבר קיימים?</li>
+                                <li>למה הפתרונות הקיימים אינם מספיקים?</li>
+                                <li>אילו טכנולוגיות חדשות יכולות לעזור?</li>
+                            </ul>
+                        </div>
+                        
+                        <p>את תוצאות המחקר נשמור בקובץ PDF ונעלה לתיקיה האישית בכונן G.</p>
+                    </div>
+                </div>
+                
+                <div class="step" id="step3">
+                    <div class="step-number">3</div>
+                    <div class="step-title">פתרונות אפשריים</div>
+                    <div class="step-description">
+                        <p>לאחר המחקר, נערוך סיעור מוחות ונחשוב על פתרונות שונים לבעיה שבחרנו.</p>
+                        
+                        <p>הפתרון שלנו חייב לכלול שימוש בבינה מלאכותית באחת או יותר מהדרכים הבאות:</p>
+                        
+                        <div class="ai-features">
+                            <div class="ai-feature"><span>👁️</span> זיהוי תמונות</div>
+                            <div class="ai-feature"><span>📊</span> ניתוח נתונים</div>
+                            <div class="ai-feature"><span>🔮</span> חיזוי מגמות</div>
+                            <div class="ai-feature"><span>🔄</span> למידה מתמשכת</div>
+                            <div class="ai-feature"><span>👂</span> זיהוי קול</div>
+                            <div class="ai-feature"><span>💬</span> עיבוד שפה</div>
+                        </div>
+                        
+                        <p>לדוגמה, אם הבעיה היא "הצלת בעלי חיים בסכנת הכחדה", פתרון אפשרי יכול להיות:</p>
+                        <div class="product-example">
+                            מערכת חיישנים חכמה המשתמשת בבינה מלאכותית לזיהוי בעלי חיים נדירים, מעקב אחרי תנועתם, וזיהוי מוקדם של סכנות כמו ציידים או שריפות.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step" id="step4">
+                    <div class="step-number">4</div>
+                    <div class="step-title">הגדרת דרישות מוצר</div>
+                    <div class="step-description">
+                        <p>דרישות מוצר הן <span class="tooltip">רשימת התכונות והיכולות<span class="tooltiptext">כמו רשימת מרכיבים למתכון</span></span> שהפתרון שלנו צריך לכלול.</p>
+                        
+                        <p>דוגמאות לדרישות מוצר:</p>
+                        
+                        <div class="requirement-box">
+                            <strong>דרישות פונקציונליות</strong> (מה המוצר צריך לעשות):
+                            <ul>
+                                <li>המערכת צריכה לזהות בעלי חיים נדירים בדיוק של 95% לפחות</li>
+                                <li>המערכת צריכה לשלוח התראות בזמן אמת לפקחים</li>
+                                <li>המערכת צריכה לעבוד גם באזורים ללא אינטרנט</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="requirement-box">
+                            <strong>דרישות לא פונקציונליות</strong> (איך המוצר צריך לפעול):
+                            <ul>
+                                <li>המערכת צריכה להיות קלה לתפעול גם למשתמשים ללא רקע טכנולוגי</li>
+                                <li>הסוללה צריכה להחזיק מעמד לפחות שבוע</li>
+                                <li>המערכת צריכה להיות עמידה בתנאי שטח קשים</li>
+                            </ul>
+                        </div>
+                        
+                        <p>נמלא טופס דרישות מוצר שיעזור לנו להגדיר בדיוק מה הפתרון שלנו צריך לעשות.</p>
+                    </div>
+                </div>
+
+                <!-- שיעור 2 -->
+                <div class="step" id="step5">
+                    <div class="step-number">5</div>
+                    <div class="step-title">פיתוח הפתרון</div>
+                    <div class="step-description">
+                        <p>בשיעור השני, נפתח את הפתרון בצורה מעמיקה יותר ונגדיר בדיוק איך הוא יעבוד.</p>
+                        
+                        <p>נתייחס לשאלות כמו:</p>
+                        <ul>
+                            <li>מהם הרכיבים העיקריים של הפתרון?</li>
+                            <li>איך הבינה המלאכותית תשתלב בפתרון?</li>
+                            <li>מה יהיה תהליך העבודה של המוצר?</li>
+                        </ul>
+                        
+                        <div class="timeline">
+                            <div class="timeline-container left">
+                                <div class="timeline-content">
+                                    <h3>קלט</h3>
+                                    <p>המערכת מקבלת נתונים מחיישנים, מצלמות או ממקורות אחרים</p>
+                                </div>
+                            </div>
+                            <div class="timeline-container right">
+                                <div class="timeline-content">
+                                    <h3>עיבוד</h3>
+                                    <p>מודל בינה מלאכותית מעבד את הנתונים, מזהה דפוסים ומסיק מסקנות</p>
+                                </div>
+                            </div>
+                            <div class="timeline-container left">
+                                <div class="timeline-content">
+                                    <h3>החלטה</h3>
+                                    <p>המערכת מחליטה איך להגיב בהתבסס על הניתוח שלה</p>
+                                </div>
+                            </div>
+                            <div class="timeline-container right">
+                                <div class="timeline-content">
+                                    <h3>פלט</h3>
+                                    <p>המערכת מפיקה תוצאה: התראה, המלצה, או פעולה אוטומטית</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step" id="step6">
+                    <div class="step-number">6</div>
+                    <div class="step-title">הגדרת מקרי שימוש</div>
+                    <div class="step-description">
+                        <p>מקרי שימוש (Use Cases) מתארים <span class="tooltip">איך משתמשים שונים יעבדו עם המוצר<span class="tooltiptext">כמו תסריטים קצרים שמראים את המוצר בפעולה</span></span>.</p>
+                        
+                        <p>כל מקרה שימוש מתאר:</p>
+                        <ul>
+                            <li>מי המשתמש</li>
+                            <li>מה המטרה שלו</li>
+                            <li>איך הוא משיג את המטרה בעזרת המוצר</li>
+                        </ul>
+                        
+                        <p>דוגמה למקרה שימוש:</p>
+                        
+                        <div class="use-case">
+                            <div class="use-case-title">זיהוי ומעקב אחר נמר נדיר</div>
+                            <p><strong>משתמש:</strong> פקח שמורת טבע</p>
+                            <p><strong>מטרה:</strong> לעקוב אחר תנועות הנמרים בשמורה כדי להגן עליהם טוב יותר</p>
+                            <p><strong>תרחיש:</strong></p>
+                            <ol>
+                                <li>המצלמה החכמה מזהה נמר בשטח השמורה</li>
+                                <li>מערכת הבינה המלאכותית <span class="highlight">מזהה שמדובר בנמר נדיר</span> לפי הדפוס שלו</li>
+                                <li>המערכת <span class="highlight">שולחת התראה לטלפון של הפקח</span> עם מיקום, תמונה, וזמן</li>
+                                <li>הפקח בודק את ההתראה ויכול להחליט האם להגיע למקום או לתעד את המידע</li>
+                                <li>המערכת <span class="highlight">מעדכנת את בסיס הנתונים</span> עם המיקום והמידע החדש</li>
+                                <li>המערכת לומדת מכל זיהוי ומשפרת את הדיוק שלה לאורך זמן</li>
+                            </ol>
+                        </div>
+                        
+                        <p>נגדיר לפחות 3-4 מקרי שימוש שונים לפתרון שלנו.</p>
+                    </div>
+                </div>
+                
+                <div class="step" id="step7">
+                    <div class="step-number">7</div>
+                    <div class="step-title">תכנון אסטרטגיית שיווק</div>
+                    <div class="step-description">
+                        <p>עכשיו שיש לנו פתרון, צריך לחשוב איך לשווק אותו לעולם!</p>
+                        
+                        <p>אסטרטגיית שיווק כוללת:</p>
+                        <ul>
+                            <li><strong>קהל יעד:</strong> למי הפתרון שלנו מיועד?</li>
+                            <li><strong>סלוגן:</strong> משפט קליט שמסכם את הערך של הפתרון</li>
+                            <li><strong>ערוצי שיווק:</strong> איפה ואיך נפרסם את המוצר?</li>
+                            <li><strong>יתרונות תחרותיים:</strong> מה הופך את הפתרון שלנו לטוב יותר מאחרים?</li>
+                        </ul>
+                        
+                        <p>דוגמה לסלוגן עבור מערכת מעקב אחר בעלי חיים:</p>
+                        <div class="product-example" style="text-align: center; font-size: 1.2rem; font-weight: bold;">
+                            "שומרים על החי - בעזרת בינה מלאכותית"
+                        </div>
+                        
+                        <p>נחשוב על דרכים יצירתיות להציג את הפתרון שלנו ולשכנע אחרים שהוא חשוב ויעיל.</p>
+                    </div>
+                </div>
+
+                <!-- שיעור 3 -->
+                <div class="step" id="step8">
+                    <div class="step-number">8</div>
+                    <div class="step-title">השלמת ספר הפרויקט</div>
+                    <div class="step-description">
+                        <p>בשיעור השלישי, נאסוף את כל החומר שיצרנו ונארגן אותו בספר פרויקט מסודר.</p>
+                        
+                        <p>ספר הפרויקט יכלול:</p>
+                        <div class="product-example">
+                            <ol>
+                                <li><strong>דף שער ותוכן עניינים</strong></li>
+                                <li><strong>תקציר מנהלים</strong> - סיכום קצר של הפרויקט</li>
+                                <li><strong>הגדרת הבעיה</strong> - תיאור הבעיה והשפעתה</li>
+                                <li><strong>ממצאי מחקר</strong> - תובנות עיקריות מהמחקר שלנו</li>
+                                <li><strong>דרישות המוצר</strong> - פונקציונליות ולא פונקציונליות</li>
+                                <li><strong>הפתרון המוצע</strong> - תיאור מפורט של הפתרון</li>
+                                <li><strong>שימוש בבינה מלאכותית</strong> - כיצד משתלבת במוצר</li>
+                                <li><strong>מקרי שימוש</strong> - תרחישים של שימוש במוצר</li>
+                                <li><strong>אסטרטגיית שיווק ופרסום</strong> - כיצד נשווק את הפתרון</li>
+                                <li><strong>המחשה ויזואלית</strong> - סקיצות ודגם המוצר</li>
+                                <li><strong>סיכום ומסקנות</strong> - תובנות וכיווני פיתוח עתידיים</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step" id="step9">
+                    <div class="step-number">9</div>
+                    <div class="step-title">יצירת דגם דיגיטלי תלת-מימדי</div>
+                    <div class="step-description">
+                        <p>החלק המרגש ביותר: יצירת דגם דיגיטלי תלת-מימדי של הפתרון שלנו!</p>
+                        
+                        <p>הדגם הדיגיטלי יעזור להמחיש איך המוצר שלנו ייראה וכיצד הוא יעבוד במציאות.</p>
+                        
+                        <div class="model-container">
+                            <img src="/api/placeholder/500/300" alt="דגם דיגיטלי לדוגמה" class="model-image">
+                        </div>
+                        
+                        <p>אפשר ליצור דגם פשוט באמצעות תוכנות עיצוב או כלים מקוונים לעיצוב תלת-מימד. הדגם יכול להיות:</p>
+                        <ul>
+                            <li>מודל תלת-מימדי של המוצר</li>
+                            <li>הדמיה של ממשק המשתמש</li>
+                            <li>אפליקציה מדומה</li>
+                            <li>פוסטר דיגיטלי מפורט</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step" id="step10">
+                    <div class="step-number">10</div>
+                    <div class="step-title">הצגת הפרויקט</div>
+                    <div class="step-description">
+                        <p>בסיום התהליך, כל קבוצה תציג את הפרויקט שלה בפני הכיתה.</p>
+                        
+                        <p>במצגת תציגו:</p>
+                        <ul>
+                            <li>הבעיה שבחרתם ולמה היא חשובה</li>
+                            <li>הפתרון המוצע ואיך הוא עובד</li>
+                            <li>כיצד הבינה המלאכותית משולבת בפתרון</li>
+                            <li>הדגם הדיגיטלי התלת-מימדי שיצרתם</li>
+                            <li>מדוע הפתרון שלכם יעיל ומה ההשפעה שלו</li>
+                        </ul>
+                        
+                        <p>זה הזמן לשכנע את כולם כמה הפתרון שלכם חדשני ויעיל!</p>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <div class="btn" id="finish-btn">סיום התהליך!</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-container">
+                    <button class="btn" id="prev-btn" disabled>הקודם</button>
+                    <button class="btn" id="next-btn">הבא</button>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>פרויקט פיתוח פתרונות מבוססי בינה מלאכותית לבעיות עולמיות</p>
+        </footer>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // אנימציית מסלול התהליך
+            setTimeout(() => {
+                document.querySelector('.process-path').classList.add('animate');
+            }, 1000);
+            
+            // טיפול בלחיצות על כרטיסי השיעורים
+            const lessonCards = document.querySelectorAll('.lesson-card');
+            lessonCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    lessonCards.forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const lessonId = this.id;
+                    const stepElements = document.querySelectorAll('.step');
+                    
+                    // מציג את השלבים הרלוונטיים לשיעור שנבחר
+                    stepElements.forEach(step => {
+                        step.classList.remove('active');
+                        
+                        if (lessonId === 'lesson1' && ['step1', 'step2', 'step3', 'step4'].includes(step.id)) {
+                            step.classList.add('active');
+                        } else if (lessonId === 'lesson2' && ['step5', 'step6', 'step7'].includes(step.id)) {
+                            step.classList.add('active');
+                        } else if (lessonId === 'lesson3' && ['step8', 'step9', 'step10'].includes(step.id)) {
+                            step.classList.add('active');
+                        }
+                    });
+                    
+                    // איפוס מצב כפתורים
+                    currentStep = document.querySelector('.step.active').id;
+                    updateButtonState();
+                });
+            });
+            
+            // טיפול בכפתורי ניווט הבא/הקודם
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            let currentStep = 'step1';
+            
+            // הפעולה שקורית כאשר לוחצים על הכפתור 'הבא'
+            nextBtn.addEventListener('click', function() {
+                const currentStepElement = document.getElementById(currentStep);
+                const currentStepNumber = parseInt(currentStep.substring(4));
+                const nextStepNumber = currentStepNumber + 1;
+                const nextStepId = 'step' + nextStepNumber;
+                const nextStepElement = document.getElementById(nextStepId);
+                
+                if (nextStepElement) {
+                    currentStepElement.classList.remove('active');
+                    nextStepElement.classList.add('active');
+                    currentStep = nextStepId;
+                    
+                    // עדכון כרטיס השיעור הפעיל
+                    if (nextStepNumber <= 4) {
+                        document.getElementById('lesson1').click();
+                    } else if (nextStepNumber <= 7) {
+                        document.getElementById('lesson2').click();
+                    } else {
+                        document.getElementById('lesson3').click();
+                    }
+                    
+                    updateButtonState();
+                }
+            });
+            
+            // הפעולה שקורית כאשר לוחצים על הכפתור 'הקודם'
+            prevBtn.addEventListener('click', function() {
+                const currentStepElement = document.getElementById(currentStep);
+                const currentStepNumber = parseInt(currentStep.substring(4));
+                const prevStepNumber = currentStepNumber - 1;
+                const prevStepId = 'step' + prevStepNumber;
+                const prevStepElement = document.getElementById(prevStepId);
+                
+                if (prevStepElement) {
+                    currentStepElement.classList.remove('active');
+                    prevStepElement.classList.add('active');
+                    currentStep = prevStepId;
+                    
+                    // עדכון כרטיס השיעור הפעיל
+                    if (prevStepNumber <= 4) {
+                        document.getElementById('lesson1').click();
+                    } else if (prevStepNumber <= 7) {
+                        document.getElementById('lesson2').click();
+                    } else {
+                        document.getElementById('lesson3').click();
+                    }
+                    
+                    updateButtonState();
+                }
+            });
+            
+            // עדכון מצב הכפתורים (מאופשר/מושבת)
+            function updateButtonState() {
+                const currentStepNumber = parseInt(currentStep.substring(4));
+                
+                prevBtn.disabled = currentStepNumber === 1;
+                nextBtn.disabled = currentStepNumber === 10;
+                
+                // אפקט דופק בכפתור הסיום
+                if (currentStepNumber === 10) {
+                    document.getElementById('finish-btn').classList.add('pulse');
+                } else {
+                    document.getElementById('finish-btn').classList.remove('pulse');
+                }
+            }
+            
+            // כפתור סיום התהליך
+            document.getElementById('finish-btn').addEventListener('click', function() {
+                alert('כל הכבוד! סיימתם את תהליך הפרויקט המלא. עכשיו אתם מוכנים ליישם זאת בכיתה!');
+            });
+            
+            // חזרה לתחילת התהליך
+            document.getElementById('lesson1').click();
+        });
+    </script>
+</body>
+</html>
