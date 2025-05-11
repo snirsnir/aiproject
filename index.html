@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>בנק הבעיות</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: #f5f7fa;
+      padding: 20px;
+      color: #333;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px;
+      background-color: #3498db;
+      color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    .instructions {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      font-size: 1.1rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .problem-card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    .problem-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .problem-card h3 {
+      color: #2980b9;
+      margin-bottom: 10px;
+      font-size: 1.4rem;
+    }
+    .problem-card p {
+      font-size: 1rem;
+      flex-grow: 1;
+    }
+    .problem-card .btn {
+      display: inline-block;
+      background-color: #3498db;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 5px;
+      text-decoration: none;
+      margin-top: 10px;
+      text-align: center;
+      transition: background-color 0.3s ease;
+    }
+    .problem-card .btn:hover {
+      background-color: #2980b9;
+    }
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 480px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      background-color: #f0f0f0;
+      border-radius: 10px;
+    }
+    #modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      overflow: auto;
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 70%;
+      max-width: 800px;
+      position: relative;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    #modal-title {
+      color: #3498db;
+      margin-bottom: 15px;
+    }
+    #modal-description {
+      margin-bottom: 20px;
+    }
+    #research-questions h4 {
+      color: #2980b9;
+      margin: 15px 0 10px 0;
+    }
+    #research-questions ul {
+      padding-right: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>בנק הבעיות</h1>
+    </header>
+
+    <div class="instructions">
+      <p>יש לבחור בעיה אחת ולבצע עליה מחקר. המחקר יעזור לכם במציאת פתרון לבעיה.</p>
+      <p>לחצו על אחת הבעיות כדי לראות פרטים נוספים ושאלות מחקר שיעזרו לכם להתחיל.</p>
+    </div>
+
+    <div class="grid">
+      <!-- שורה ראשונה -->
+      <div class="problem-card" onclick="openModal('התמודדות עם הרי געש פעילים', 'הרי געש פעילים מהווים סכנה למיליוני אנשים ברחבי העולם. איך ניתן להשתמש בטכנולוגיה כדי לחזות התפרצויות, להתריע בזמן ולהגן על האנשים החיים בקרבת הרי געש?', ['איך מדענים מנבאים כיום התפרצויות של הרי געש?', 'אילו טכנולוגיות חדשות משמשות למעקב אחר פעילות הרי געש?', 'אילו מערכות התרעה קיימות כיום באזורים עם הרי געש פעילים?', 'איך קהילות שונות בעולם מתכוננות להתפרצויות של הרי געש?'])">
+        <h3>התמודדות עם הרי געש פעילים</h3>
+        <p>הרי געש פעילים מהווים סכנה למיליוני אנשים ברחבי העולם. איך ניתן להשתמש בטכנולוגיה כדי לחזות התפרצויות, להתריע בזמן ולהגן על האנשים החיים בקרבת הרי געש?</p>
+        <div class="btn">בחר בעיה זו</div>
+      </div>
+
+      <div class="problem-card" onclick="openModal('הפחתת השימוש בפלסטיק חד פעמי', 'פלסטיק חד פעמי מזהם את האוקיינוסים ופוגע בחיות ים. איך אפשר למצוא פתרונות יצירתיים שיעזרו לאנשים להפחית את השימוש במוצרים חד פעמיים בחיי היומיום?', ['כמה פלסטיק חד פעמי נזרק מדי שנה ברחבי העולם?', 'אילו חלופות ידידותיות לסביבה קיימות כיום למוצרי פלסטיק חד פעמיים?', 'אילו מדינות או ערים הצליחו להפחית משמעותית את השימוש בפלסטיק חד פעמי?', 'איך אפשר לעודד ילדים ומשפחות להשתמש פחות במוצרים חד פעמיים?'])">
+        <h3>הפחתת השימוש בפלסטיק חד פעמי</h3>
+        <p>פלסטיק חד פעמי מזהם את האוקיינוסים ופוגע בחיות ים. איך אפשר למצוא פתרונות יצירתיים שיעזרו לאנשים להפחית את השימוש במוצרים חד פעמיים בחיי היומיום?</p>
+        <div class="btn">בחר בעיה זו</div>
+      </div>
+
+      <div class="problem-card" onclick="openModal('שימור מים והתמודדות עם בצורת', 'מקורות המים המתוקים בעולם מתמעטים, ואזורים רבים סובלים מבצורת. איך ניתן לפתח טכנולוגיות ושיטות לחסכון במים ולאספקת מים נקיים לאזורים מוכי בצורת?', ['אילו אזורים בעולם סובלים מבצורת חמורה כיום?', 'אילו שיטות חדשניות קיימות לאיסוף, טיהור וחסכון במים?', 'איך מדינות שונות מתמודדות עם מחסור במים?', 'אילו טכנולוגיות חדשות יכולות לעזור להפוך מי ים למי שתייה?'])">
+        <h3>שימור מים והתמודדות עם בצורת</h3>
+        <p>מקורות המים המתוקים בעולם מתמעטים, ואזורים רבים סובלים מבצורת. איך ניתן לפתח טכנולוגיות ושיטות לחסכון במים ולאספקת מים נקיים לאזורים מוכי בצורת?</p>
+        <div class="btn">בחר בעיה זו</div>
+      </div>
+
+      <!-- שורה שנייה -->
+      <div class="problem-card" onclick="openModal('הצלת בעלי חיים בסכנת הכחדה', 'מינים רבים של בעלי חיים נמצאים בסכנת הכחדה בגלל ציד, הרס בתי גידול ושינויי אקלים. איך ניתן להשתמש בטכנולוגיה כדי להגן על בעלי חיים בסכנה ולשמור על המגוון הביולוגי?', ['אילו בעלי חיים נמצאים בסכנת הכחדה חמורה כיום?', 'איך מדענים עוקבים ומגנים על בעלי חיים בסכנת הכחדה?', 'אילו טכנולוגיות חדשות משמשות לשמירה על בעלי חיים ובתי גידול?', 'אילו סיפורי הצלחה יש בהצלת מינים שהיו בסכנת הכחדה?'])">
+        <h3>הצלת בעלי חיים בסכנת הכחדה</h3>
+        <p>מינים רבים של בעלי חיים נמצאים בסכנת הכחדה בגלל ציד, הרס בתי גידול ושינויי אקלים. איך ניתן להשתמש בטכנולוגיה כדי להגן על בעלי חיים בסכנה ולשמור על המגוון הביולוגי?</p>
+        <div class="btn">בחר בעיה זו</div>
+      </div>
+
+      <div class="problem-card" onclick="openModal('הפחתת פסולת מזון', 'כשליש מהמזון המיוצר בעולם נזרק לפח. איך ניתן למנוע בזבוז מזון ולהשתמש בשאריות מזון בצורה יעילה יותר בבתים, במסעדות ובחנויות?', ['כמה מזון נזרק מדי שנה במשקי בית רגילים?', 'אילו יוזמות מוצלחות קיימות בעולם להפחתת פסולת מזון?', 'איך אפשר להשתמש בטכנולוגיה כדי לתכנן טוב יותר את צריכת המזון?', 'מה אפשר לעשות עם שאריות מזון במקום לזרוק אותן לפח?'])">
+        <h3>הפחתת פסולת מזון</h3>
+        <p>כשליש מהמזון המיוצר בעולם נזרק לפח. איך ניתן למנוע בזבוז מזון ולהשתמש בשאריות מזון בצורה יעילה יותר בבתים, במסעדות ובחנויות?</p>
+        <div class="btn">בחר בעיה זו</div>
+      </div>
+
+      <div class="problem-card" onclick="openModal('אנרגיה מתחדשת לילדים', 'אנרגיה מתחדשת כמו שמש ורוח חשובה לעתיד כדור הארץ. איך אפשר לפתח מוצרים או משחקים שיעזרו לילדים ללמוד על אנרגיה מתחדשת ולהשתמש בה בחיי היומיום?', ['אילו סוגים של אנרגיה מתחדשת קיימים וכיצד הם עובדים?', 'אילו ערכות או משחקים לימודיים קיימים כיום ללימוד על אנרגיה מתחדשת?', 'איך ילדים יכולים להשתמש באנרגיה מתחדשת בחיי היומיום?', 'מה הן דוגמאות מוצלחות לפרויקטים של אנרגיה מתחדשת שנעשו על-ידי ילדים?'])">
+        <h3>אנרגיה מתחדשת לילדים</h3>
+        <p>אנרגיה מתחדשת כמו שמש ורוח חשובה לעתיד כדור הארץ. איך אפשר לפתח מוצרים או משחקים שיעזרו לילדים ללמוד על אנרגיה מתחדשת ולהשתמש בה בחיי היומיום?</p>
+        <div class="btn">בחר בעיה זו</div>
+      </div>
+    </div>
+
+    <footer>
+      <p>פרויקט בינה מלאכותית ופתרון בעיות | בעיות סביבתיות וגלובליות</p>
+    </footer>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h2 id="modal-title"></h2>
+      <p id="modal-description"></p>
+      <div id="research-questions">
+        <h4>שאלות מחקר שיעזרו לך להתחיל:</h4>
+        <ul id="questions-list"></ul>
+      </div>
+      <p style="margin-top: 20px;">זכרו להשתמש ב-Perplexity או בכלי מחקר אחרים כדי למצוא מידע על הבעיה ולפתח פתרון.</p>
+      <div class="btn" onclick="closeModal()" style="display: inline-block; margin-top: 15px;">סגור וחזור לבנק הבעיות</div>
+    </div>
+  </div>
+
+  <script>
+    function openModal(title, description, questions) {
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-description').textContent = description;
+      
+      const questionsList = document.getElementById('questions-list');
+      questionsList.innerHTML = '';
+      
+      questions.forEach(question => {
+        const li = document.createElement('li');
+        li.textContent = question;
+        questionsList.appendChild(li);
+      });
+      
+      document.getElementById('modal').style.display = 'block';
+    }
+    
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+    
+    // סגירת המודל אם המשתמש לוחץ מחוץ לתוכן המודל
+    window.onclick = function(event) {
+      const modal = document.getElementById('modal');
+      if (event.target == modal) {
+        closeModal();
+      }
+    }
+  </script>
+</body>
+</html>
