@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף עבודה: פיתוח מעמיק של הפתרון</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap');
+        
+        :root {
+            --primary-color: #3f51b5;
+            --secondary-color: #4caf50;
+            --accent-color: #ff9800;
+            --light-color: #f5f5f5;
+            --dark-color: #333;
+            --border-color: #ddd;
+            --shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Rubik', Arial, sans-serif;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        h2 .number {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            margin-left: 10px;
+            font-size: 1rem;
+        }
+        
+        .form-field {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+        }
+        
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-family: 'Rubik', Arial, sans-serif;
+            font-size: 0.9rem;
+        }
+        
+        textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        
+        .checkbox-group {
+            margin: 15px 0;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            margin-left: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        table, th, td {
+            border: 1px solid var(--border-color);
+        }
+        
+        th {
+            background-color: #f0f4ff;
+            padding: 8px;
+            text-align: right;
+            font-weight: 500;
+        }
+        
+        td {
+            padding: 8px;
+            min-height: 40px;
+        }
+        
+        .drawing-area {
+            border: 1px solid var(--border-color);
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            position: relative;
+            height: 300px;
+            width: 100%;
+            margin: 15px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .drawing-area:before {
+            content: 'מקום לסקיצה';
+            color: #aaa;
+            position: absolute;
+            pointer-events: none;
+        }
+        
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: crosshair;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Rubik', Arial, sans-serif;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .button-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .button-primary:hover {
+            background-color: #303f9f;
+        }
+        
+        .button-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .button-secondary:hover {
+            background-color: #388e3c;
+        }
+        
+        .button svg {
+            margin-left: 8px;
+        }
+        
+        .button-clear {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .button-clear:hover {
+            background-color: #d32f2f;
+        }
+        
+        .drawing-tools {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .drawing-tools button {
+            padding: 5px 10px;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .drawing-tools button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .color-picker {
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+        }
+        
+        .color-picker label {
+            margin-bottom: 0;
+            margin-left: 5px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* התאמה להדפסה */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+            }
+            
+            .action-buttons, .drawing-tools {
+                display: none;
+            }
+            
+            .drawing-area {
+                border: 1px solid #ccc;
+                height: 280px;
+            }
+            
+            input, textarea {
+                border: 1px solid #ccc;
+            }
+            
+            table, th, td {
+                border: 1px solid #ccc;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>דף עבודה: פיתוח מעמיק של הפתרון</h1>
+        
+        <div class="section">
+            <h2><span class="number">1</span> פרטי הקבוצה</h2>
+            <div class="form-field">
+                <label for="group-members">שמות חברי הקבוצה:</label>
+                <input type="text" id="group-members" placeholder="רשמו את שמות כל חברי הקבוצה">
+            </div>
+            
+            <div class="form-field" style="display: flex; gap: 15px;">
+                <div style="flex: 1;">
+                    <label for="classroom">כיתה:</label>
+                    <input type="text" id="classroom">
+                </div>
+                <div style="flex: 1;">
+                    <label for="date">תאריך:</label>
+                    <input type="text" id="date" placeholder="DD/MM/YYYY">
+                </div>
+            </div>
+            
+            <div class="form-field">
+                <label for="chosen-problem">הבעיה שבחרנו:</label>
+                <input type="text" id="chosen-problem" placeholder="רשמו את הבעיה שבחרתם לפתור">
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><span class="number">2</span> תיאור הפתרון</h2>
+            <div class="form-field">
+                <label for="short-description">תיאור קצר של הפתרון (2-3 משפטים):</label>
+                <textarea id="short-description" placeholder="תארו בקצרה מהו הפתרון שלכם"></textarea>
+            </div>
+            
+            <div class="form-field">
+                <label for="detailed-description">תיאור מפורט של הפתרון:</label>
+                <textarea id="detailed-description" placeholder="תארו בפירוט כיצד הפתרון שלכם עובד - מתחילת התהליך ועד סופו" style="height: 150px;"></textarea>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><span class="number">3</span> רכיבים עיקריים של הפתרון</h2>
+            <p>פרטו את הרכיבים או החלקים העיקריים שיש בפתרון שלכם:</p>
+            
+            <div class="form-field">
+                <input type="text" id="component-1" placeholder="רכיב 1">
+            </div>
+            <div class="form-field">
+                <input type="text" id="component-2" placeholder="רכיב 2">
+            </div>
+            <div class="form-field">
+                <input type="text" id="component-3" placeholder="רכיב 3">
+            </div>
+            <div class="form-field">
+                <input type="text" id="component-4" placeholder="רכיב 4">
+            </div>
+            <div class="form-field">
+                <input type="text" id="component-5" placeholder="רכיב 5">
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><span class="number">4</span> שילוב בינה מלאכותית</h2>
+            
+            <div class="form-field">
+                <label>סוג הבינה המלאכותית שאנחנו משתמשים בה: (סמנו את כל האפשרויות המתאימות)</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ai-vision">
+                        <label for="ai-vision">זיהוי תמונות/עצמים</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ai-speech">
+                        <label for="ai-speech">זיהוי קול או דיבור</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ai-nlp">
+                        <label for="ai-nlp">עיבוד שפה טבעית</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ai-data">
+                        <label for="ai-data">ניתוח נתונים וחיזוי</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ai-learning">
+                        <label for="ai-learning">למידה והשתפרות עם הזמן</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ai-decision">
+                        <label for="ai-decision">קבלת החלטות אוטומטית</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ai-other">
+                        <label for="ai-other">אחר:</label>
+                        <input type="text" id="ai-other-text" style="width: 200px; margin-right: 10px;">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-field">
+                <label for="ai-usage">כיצד הבינה המלאכותית עוזרת בפתרון?</label>
+                <textarea id="ai-usage" placeholder="הסבירו באילו דרכים הבינה המלאכותית משתלבת בפתרון שלכם"></textarea>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><span class="number">5</span> יתרונות לעומת פתרונות קיימים</h2>
+            <p>הסבירו איך הפתרון שלכם עדיף על פתרונות שכבר קיימים לבעיה:</p>
+            
+            <table>
+                <tr>
+                    <th style="width: 50%;">הפתרון שלנו</th>
+                    <th style="width: 50%;">פתרונות קיימים</th>
+                </tr>
+                <tr>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2><span class="number">6</span> משתמשים פוטנציאליים</h2>
+            <p>רשמו מי יכול להשתמש בפתרון שלכם ובאיזה אופן:</p>
+            
+            <table>
+                <tr>
+                    <th style="width: 30%;">סוג משתמש</th>
+                    <th style="width: 35%;">איך ישתמש בפתרון</th>
+                    <th style="width: 35%;">צרכים מיוחדים של המשתמש</th>
+                </tr>
+                <tr>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2><span class="number">7</span> אתגרים וקשיים אפשריים</h2>
+            <p>מהם האתגרים שאתם צופים בפיתוח או בשימוש בפתרון שלכם?</p>
+            
+            <div class="form-field">
+                <input type="text" id="challenge-1" placeholder="אתגר 1">
+            </div>
+            <div class="form-field">
+                <input type="text" id="challenge-2" placeholder="אתגר 2">
+            </div>
+            <div class="form-field">
+                <input type="text" id="challenge-3" placeholder="אתגר 3">
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><span class="number">8</span> סקיצה של הפתרון</h2>
+            <p>שרטטו סקיצה פשוטה של הפתרון שלכם - איך הוא נראה? איך הוא עובד?</p>
+            
+            <div class="drawing-area">
+                <canvas id="canvas"></canvas>
+            </div>
+            
+            <div class="drawing-tools">
+                <button id="pen-tool" class="active">עט</button>
+                <button id="eraser-tool">מחק</button>
+                <button id="clear-canvas">נקה הכל</button>
+                <div class="color-picker">
+                    <label for="color-picker">צבע:</label>
+                    <input type="color" id="color-picker" value="#000000">
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><span class="number">9</span> שאלות פתוחות להמשך חשיבה</h2>
+            <p>אילו שאלות עדיין פתוחות לגבי הפתרון שלכם? מה צריך לחקור או לברר?</p>
+            
+            <div class="form-field">
+                <input type="text" id="question-1" placeholder="שאלה 1">
+            </div>
+            <div class="form-field">
+                <input type="text" id="question-2" placeholder="שאלה 2">
+            </div>
+            <div class="form-field">
+                <input type="text" id="question-3" placeholder="שאלה 3">
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>הערות והארות</h2>
+            <textarea id="notes" placeholder="הערות נוספות"></textarea>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="button button-primary" id="save-pdf">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                שמור כ-PDF
+            </button>
+            <button class="button button-secondary" id="print">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                    <rect x="6" y="14" width="12" height="8"></rect>
+                </svg>
+                הדפס
+            </button>
+        </div>
+        
+        <footer>
+            <p>זכרו לשמור את הדף המלא בתיקייה האישית שלכם בכונן G</p>
+        </footer>
+    </div>
+    
+    <script>
+        // הגדרת התאריך הנוכחי
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, '0');
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const year = today.getFullYear();
+            
+            document.getElementById('date').value = day + '/' + month + '/' + year;
+        });
+        
+        // פונקציונליות של הציור
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+        
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            canvas.width = container.offsetWidth;
+            canvas.height = container.offsetHeight;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        
+        // כלי ציור
+        let currentTool = 'pen';
+        let currentColor = '#000000';
+        let lineWidth = 3;
+        
+        document.getElementById('pen-tool').addEventListener('click', function() {
+            currentTool = 'pen';
+            updateToolButtons();
+        });
+        
+        document.getElementById('eraser-tool').addEventListener('click', function() {
+            currentTool = 'eraser';
+            updateToolButtons();
+        });
+        
+        document.getElementById('clear-canvas').addEventListener('click', function() {
+            if (confirm('האם אתם בטוחים שברצונכם לנקות את כל השרטוט?')) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        });
+        
+        document.getElementById('color-picker').addEventListener('input', function(e) {
+            currentColor = e.target.value;
+            if (currentTool === 'eraser') {
+                currentTool = 'pen';
+                updateToolButtons();
+            }
+        });
+        
+        function updateToolButtons() {
+            document.getElementById('pen-tool').classList.remove('active');
+            document.getElementById('eraser-tool').classList.remove('active');
+            
+            if (currentTool === 'pen') {
+                document.getElementById('pen-tool').classList.add('active');
+            } else if (currentTool === 'eraser') {
+                document.getElementById('eraser-tool').classList.add('active');
+            }
+        }
+        
+        // מאזיני אירועים לציור
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+        
+        // תמיכה במכשירים ניידים
+        canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+        canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+        canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
+        
+        function startDrawing(e) {
+            isDrawing = true;
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        }
+        
+        function draw(e) {
+            if (!isDrawing) return;
+            
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(e.offsetX, e.offsetY);
+            
+            if (currentTool === 'pen') {
+                ctx.strokeStyle = currentColor;
+                ctx.lineWidth = lineWidth;
+            } else if (currentTool === 'eraser') {
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = lineWidth * 3;
+            }
+            
+            ctx.lineCap = 'round';
+            ctx.stroke();
+            
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        }
+        
+        function stopDrawing() {
+            isDrawing = false;
+        }
+        
+        function handleTouchStart(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            const touchX = touch.clientX - rect.left;
+            const touchY = touch.clientY - rect.top;
+            
+            isDrawing = true;
+            [lastX, lastY] = [touchX, touchY];
+        }
+        
+        function handleTouchMove(e) {
+            e.preventDefault();
+            if (!isDrawing) return;
+            
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            const touchX = touch.clientX - rect.left;
+            const touchY = touch.clientY - rect.top;
+            
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(touchX, touchY);
+            
+            if (currentTool === 'pen') {
+                ctx.strokeStyle = currentColor;
+                ctx.lineWidth = lineWidth;
+            } else if (currentTool === 'eraser') {
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = lineWidth * 3;
+            }
+            
+            ctx.lineCap = 'round';
+            ctx.stroke();
+            
+            [lastX, lastY] = [touchX, touchY];
+        }
+        
+        function handleTouchEnd(e) {
+            e.preventDefault();
+            isDrawing = false;
+        }
+        
+        // פונקציונליות ההדפסה
+        document.getElementById('print').addEventListener('click', function() {
+            window.print();
+        });
+        
+        // פונקציונליות השמירה כ-PDF (באמצעות חלון ההדפסה)
+        document.getElementById('save-pdf').addEventListener('click', function() {
+            window.print();
+            alert('כדי לשמור כ-PDF, בחרו באפשרות "שמור כ-PDF" בחלון ההדפסה.');
+        });
+    </script>
+</body>
+</html>
